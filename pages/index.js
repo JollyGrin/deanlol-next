@@ -1,88 +1,68 @@
-import React from 'react'
+import React, { Component } from 'react'
 import Head from 'next/head'
 import Nav from '../components/nav'
+import TheHead from '../components/TheHead'
+import Tiles from '../components/Tiles'
+import { getResults } from '../lib/db'
 
-const Home = () => (
-  <div>
-    <Head>
-      <title>Home</title>
-      <link rel="icon" href="/favicon.ico" />
-    </Head>
+export default class index extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            results: [],
+        }
+    }
 
-    <Nav />
+    chunk = (array, size) => {
+        if (array.length <= size) {
+            return [array]
+        }
+        return [array.slice(0, size), ...this.chunk(array.slice(size), size)]
+    }
 
-    <div className="hero">
-      <h1 className="title">Welcome to Next.js!</h1>
-      <p className="description">
-        To get started, edit <code>pages/index.js</code> and save to reload.
-      </p>
+    componentDidMount() {
+        getResults().then(data => {
+            const chunkedArr = this.chunk(data, 3)
+            this.setState({ results: chunkedArr })
+        })
+    }
 
-      <div className="row">
-        <a href="https://nextjs.org/docs" className="card">
-          <h3>Documentation &rarr;</h3>
-          <p>Learn more about Next.js in the documentation.</p>
-        </a>
-        <a href="https://nextjs.org/learn" className="card">
-          <h3>Next.js Learn &rarr;</h3>
-          <p>Learn about Next.js by following an interactive tutorial!</p>
-        </a>
-        <a
-          href="https://github.com/zeit/next.js/tree/master/examples"
-          className="card"
-        >
-          <h3>Examples &rarr;</h3>
-          <p>Find other example boilerplates on the Next.js GitHub.</p>
-        </a>
-      </div>
-    </div>
+    render() {
+        return (
+            <div>
+                <TheHead />
+                <section className="hero is-fullheight is-default is-bold hero-bkg-animated">
+                    <div className="hero-head">
+                        <Nav />
+                    </div>
+                    <div className="hero-body">
+                        <div className="container">
+                            <div className="columns is-vcentered">
+                                <div className="column is-2">
+                                    <h1 className="title is-2 abril">
+                                        i'm dean.
+                                    </h1>
+                                    <h2 className="subtitle is-4">
+                                        goofing is good
+                                    </h2>
+                                </div>
+                                <div className="column is-9 is-offset-2">
+                                    <Tiles hobbyResults={this.state.results} />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <style jsx>{`
+                    .title {
+                        font-size: 2.5rem;
+                    }
 
-    <style jsx>{`
-      .hero {
-        width: 100%;
-        color: #333;
-      }
-      .title {
-        margin: 0;
-        width: 100%;
-        padding-top: 80px;
-        line-height: 1.15;
-        font-size: 48px;
-      }
-      .title,
-      .description {
-        text-align: center;
-      }
-      .row {
-        max-width: 880px;
-        margin: 80px auto 40px;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-around;
-      }
-      .card {
-        padding: 18px 18px 24px;
-        width: 220px;
-        text-align: left;
-        text-decoration: none;
-        color: #434343;
-        border: 1px solid #9b9b9b;
-      }
-      .card:hover {
-        border-color: #067df7;
-      }
-      .card h3 {
-        margin: 0;
-        color: #067df7;
-        font-size: 18px;
-      }
-      .card p {
-        margin: 0;
-        padding: 12px 0 0;
-        font-size: 13px;
-        color: #333;
-      }
-    `}</style>
-  </div>
-)
-
-export default Home
+                    .subtitle {
+                        font-size: 2rem;
+                    }
+                `}</style>
+            </div>
+        )
+    }
+}

@@ -1,56 +1,46 @@
-import React from 'react'
+import React, { Component, Fragment } from 'react'
 import Link from 'next/link'
 
-const links = [
-  { href: 'https://zeit.co/now', label: 'ZEIT' },
-  { href: 'https://github.com/zeit/next.js', label: 'GitHub' },
-].map(link => {
-  link.key = `nav-link-${link.href}-${link.label}`
-  return link
-})
-
-const Nav = () => (
-  <nav>
-    <ul>
-      <li>
-        <Link href="/">
-          <a>Home</a>
-        </Link>
-      </li>
-      {links.map(({ key, href, label }) => (
-        <li key={key}>
-          <a href={href}>{label}</a>
-        </li>
-      ))}
-    </ul>
-
-    <style jsx>{`
-      :global(body) {
-        margin: 0;
-        font-family: -apple-system, BlinkMacSystemFont, Avenir Next, Avenir,
-          Helvetica, sans-serif;
-      }
-      nav {
-        text-align: center;
-      }
-      ul {
-        display: flex;
-        justify-content: space-between;
-      }
-      nav > ul {
-        padding: 4px 16px;
-      }
-      li {
-        display: flex;
-        padding: 6px 8px;
-      }
-      a {
-        color: #067df7;
-        text-decoration: none;
-        font-size: 13px;
-      }
-    `}</style>
-  </nav>
-)
-
-export default Nav
+export default class Nav extends Component {
+    render() {
+        return (
+            <Fragment>
+                <nav className="navbar">
+                    <div className="container">
+                        <div className="navbar-brand">
+                            <a className="navbar-item" href="../">
+                                {/* <img src="../images/bulma.png" alt="Logo" /> */}
+                            </a>
+                            <span
+                                className="navbar-burger burger"
+                                data-target="navbarMenu"
+                            >
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </span>
+                        </div>
+                        <div id="navbarMenu" className="navbar-menu">
+                            <div className="navbar-end">
+                                <div className="tabs is-right">
+                                    <ul>
+                                        <li>
+                                            <a href="https://medium.com/@dmasley">
+                                                📝 My Writing
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="https://twitter.com/dmasley">
+                                                💬 My Thoughts
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </Fragment>
+        )
+    }
+}

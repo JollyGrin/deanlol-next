@@ -1,0 +1,8 @@
+{
+    "build": {
+        "env": {
+            "APIKEY": "@deanlol-airtable-key",
+            "BASE": "@deanlol-airtable-base"
+        }
+    }
+}
