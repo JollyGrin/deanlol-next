@@ -1,42 +1,33 @@
+import Cors from 'micro-cors'
 import fetch from 'axios'
 import getConfig from 'next/config'
-
-// export default async function getResults(req, res) {
-//     const proxy = 'https://cors-anywhere.herokuapp.com/'
-//     const apiURL = `${proxy}https://api.airtable.com/v0/${process.env.BASE}/entries?api_key=${process.env.APIKEY}`
-
-//     try {
-//         const result = await fetch(apiURL)
-//         console.log(result.data.records)
-//         res.status(200).json(result.data.records)
-//     } catch (err) {
-//         console.log(`Shoot! You hit an error: ${err}`)
-//     }
-// }
-
-// export default async (req, res) => {
-//     const proxy = 'https://cors-anywhere.herokuapp.com/'
-//     const apiURL = `${proxy}https://api.airtable.com/v0/${process.env.BASE}/entries?api_key=${process.env.APIKEY}`
-
-//     try {
-//         const result = await fetch(apiURL)
-//         console.log(result.data.records)
-//         res.json(result.data.records)
-//     } catch (err) {
-//         console.log('error')
-//         console.log(err)
-//     }
-// }
+// const fetch = require('axios').default
 
 const proxy = 'https://cors-anywhere.herokuapp.com/'
 const apiURL = `${proxy}https://api.airtable.com/v0/${process.env.BASE}/entries?api_key=${process.env.APIKEY}`
+const cors = Cors({
+    allowedMethods: ['GET', 'HEAD'],
+})
 
 module.exports = async (req, res) => {
     try {
         const result = await fetch(apiURL)
-        console.log(result.data.records)
-        res.status(200).send(result.data.records)
+        response = result.data.records
+        console.log(response)
     } catch (err) {
         console.log(err)
+        console.log('error123')
     }
 }
+
+// async function Endpoint(req, res) {
+//     try {
+//         const data = await fetch(apiURL)
+//         response = data.data.records
+//         res.json(response)
+//     } catch (err) {
+//         console.log(err)
+//     }
+// }
+
+// export default cors(Endpoint)
