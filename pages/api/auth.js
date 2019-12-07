@@ -1,33 +1,14 @@
-import Cors from 'micro-cors'
 import fetch from 'axios'
 import getConfig from 'next/config'
-// const fetch = require('axios').default
 
-const proxy = 'https://cors-anywhere.herokuapp.com/'
-const apiURL = `${proxy}https://api.airtable.com/v0/${process.env.BASE}/entries?api_key=${process.env.APIKEY}`
-const cors = Cors({
-    allowedMethods: ['GET', 'HEAD'],
-})
+const apiURL = `https://api.airtable.com/v0/${process.env.BASE}/entries?api_key=${process.env.APIKEY}`
 
 module.exports = async (req, res) => {
     try {
         const result = await fetch(apiURL)
-        response = result.data.records
-        console.log(response)
+        const response = result.data.records
+        res.status(200).json(response)
     } catch (err) {
-        console.log(err)
-        console.log('error123')
+        res.status(500).json('Sorry biatch, aint working')
     }
 }
-
-// async function Endpoint(req, res) {
-//     try {
-//         const data = await fetch(apiURL)
-//         response = data.data.records
-//         res.json(response)
-//     } catch (err) {
-//         console.log(err)
-//     }
-// }
-
-// export default cors(Endpoint)
